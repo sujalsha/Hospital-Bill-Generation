@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 function AddDoctor() {
   const [name, setName] = useState('');
@@ -10,10 +10,22 @@ function AddDoctor() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const doctor = { name, specialty, availability };
-    axios.post('/api/doctors', doctor)
-      .then(() => navigate('/doctors'))
-      .catch(error => console.log(error));
+    
+    // Ensure all fields are present
+    if (!name || !specialty || !availability) {
+      alert('All fields are required');
+      return;
+    }
+
+    const newDoctor = { name, specialty, availability };
+
+    // Post the data to the backend API
+    api.post('/doctors', newDoctor)
+    .then(() => navigate('/doctors'))
+    .catch(error => {
+      console.log('Error:', error.response ? error.response.data : error.message);
+      alert('Failed to add doctor');
+    });
   };
 
   return (

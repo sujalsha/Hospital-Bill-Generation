@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 function AddPatient() {
   const [name, setName] = useState('');
@@ -8,10 +8,12 @@ function AddPatient() {
   const [contact, setContact] = useState('');
   const navigate = useNavigate();
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    const patient = { name, age, contact };
-    axios.post('/api/patients', patient)
+    const newPatient = { name, age, contact };
+
+    api.post('/patients', newPatient)
       .then(() => navigate('/patients'))
       .catch(error => console.log(error));
   };

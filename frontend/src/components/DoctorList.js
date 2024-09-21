@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
+import '../styles/DoctorList.css';
 
 function DoctorList() {
   const [doctors, setDoctors] = useState([]);
 
+  // Fetch doctors from the backend API
   useEffect(() => {
-    axios.get('/api/doctors')
+    api.get('/doctors')
       .then(response => setDoctors(response.data))
       .catch(error => console.log(error));
   }, []);

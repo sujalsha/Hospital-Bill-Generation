@@ -5,9 +5,12 @@ import AddPatient from './components/AddPatient';
 import EditPatient from './components/EditPatient';
 import DoctorList from './components/DoctorList';
 import AddDoctor from './components/AddDoctor';
+import EditDoctor from './components/EditDoctor';
 import BillList from './components/BillList';
 import GenerateBill from './components/GenerateBill';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import './styles/responsive.css';
 
 function App() {
   return (
@@ -45,6 +48,7 @@ function App() {
           <Route path="/edit-patient/:id" element={<EditPatient />} />
           <Route path="/doctors" element={<DoctorList />} />
           <Route path="/add-doctor" element={<AddDoctor />} />
+          <Route path="/edit-doctor/:id" element={<EditDoctor />} />
           <Route path="/bills" element={<BillList />} />
           <Route path="/generate-bill" element={<GenerateBill />} />
         </Routes>

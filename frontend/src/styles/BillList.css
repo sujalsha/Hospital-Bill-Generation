@@ -1,0 +1,16 @@
+/* BillList.css */
+.bill-list h2 {
+    font-size: 1.75rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .bill-list table {
+    margin-top: 20px;
+  }
+  
+  .bill-list .total-amount {
+    font-weight: bold;
+    color: #e74c3c;
+  }
+  

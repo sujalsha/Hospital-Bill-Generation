@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
+import '../styles/PatientList.css';
 
 function PatientList() {
   const [patients, setPatients] = useState([]);
 
+  // Fetch patients from the backend API
   useEffect(() => {
-    axios.get('/api/patients')
+    api.get('/patients')
       .then(response => setPatients(response.data))
       .catch(error => console.log(error));
   }, []);
 
+  // Delete a patient
   const deletePatient = (id) => {
-    axios.delete(`/api/patients/${id}`)
+    api.delete(`/patients/${id}`)
       .then(() => setPatients(patients.filter(patient => patient.id !== id)))
       .catch(error => console.log(error));
   };

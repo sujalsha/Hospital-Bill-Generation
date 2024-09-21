@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 function GenerateBill() {
   const [patients, setPatients] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState('');
+  const [selectedDoctor, setSelectedDoctor] = useState('');
   const [billItems, setBillItems] = useState([{ description: '', amount: 0 }]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/api/patients')
-      .then(response => setPatients(response.data))
-      .catch(error => console.log(error));
+    // Fetch patients and doctors
+    api.get('/patients').then(response => setPatients(response.data));
+    api.get('/doctors').then(response => setDoctors(response.data));
   }, []);
 
   const handleAddBillItem = () => {
@@ -26,8 +28,14 @@ function GenerateBill() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const bill = { patientId: selectedPatient, items: billItems };
-    axios.post('/api/bills', bill)
+
+    const bill = {
+      patientId: selectedPatient,
+      doctorId: selectedDoctor,
+      items: billItems,
+    };
+
+    api.post('/bills', bill)
       .then(() => navigate('/bills'))
       .catch(error => console.log(error));
   };
@@ -38,10 +46,19 @@ function GenerateBill() {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Patient</label>
-          <select className="form-control" value={selectedPatient} onChange={(e) => setSelectedPatient(e.target.value)}>
+          <select className="form-control" value={selectedPatient} onChange={(e) => setSelectedPatient(e.target.value)} required>
             <option value="">Select Patient</option>
             {patients.map(patient => (
               <option key={patient.id} value={patient.id}>{patient.name}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Doctor</label>
+          <select className="form-control" value={selectedDoctor} onChange={(e) => setSelectedDoctor(e.target.value)} required>
+            <option value="">Select Doctor</option>
+            {doctors.map(doctor => (
+              <option key={doctor.id} value={doctor.id}>{doctor.name}</option>
             ))}
           </select>
         </div>

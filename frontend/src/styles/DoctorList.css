@@ -1,0 +1,15 @@
+/* DoctorList.css */
+.doctor-list h2 {
+    font-size: 1.75rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .doctor-list .btn {
+    margin-bottom: 10px;
+  }
+  
+  .doctor-list table {
+    margin-top: 20px;
+  }
+  

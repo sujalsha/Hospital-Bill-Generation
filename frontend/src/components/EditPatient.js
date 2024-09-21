@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 
 function EditPatient() {
   const { id } = useParams();
@@ -9,8 +9,9 @@ function EditPatient() {
   const [contact, setContact] = useState('');
   const navigate = useNavigate();
 
+  // Fetch the patient data when the component mounts
   useEffect(() => {
-    axios.get(`/api/patients/${id}`)
+    api.get(`/patients/${id}`)
       .then(response => {
         setName(response.data.name);
         setAge(response.data.age);
@@ -19,10 +20,12 @@ function EditPatient() {
       .catch(error => console.log(error));
   }, [id]);
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedPatient = { name, age, contact };
-    axios.put(`/api/patients/${id}`, updatedPatient)
+
+    api.put(`/patients/${id}`, updatedPatient)
       .then(() => navigate('/patients'))
       .catch(error => console.log(error));
   };

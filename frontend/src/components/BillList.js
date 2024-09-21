@@ -1,38 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';  
+import '../styles/BillList.css';
 
 function BillList() {
   const [bills, setBills] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/bills')
-      .then(response => setBills(response.data))
-      .catch(error => console.log(error));
+    api.get('/bills')
+      .then(response => {
+        console.log('Fetched bills:', response.data);  // Log to check if data is fetched
+        setBills(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching billing history:', error);
+      });
   }, []);
 
   return (
-    <div>
+    <div className="bill-list">
       <h2>Billing History</h2>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Patient Name</th>
-            <th>Total Amount</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bills.map(bill => (
-            <tr key={bill.id}>
-              <td>{bill.patientName}</td>
-              <td>${bill.totalAmount}</td>
-              <td>
-                <button className="btn btn-info">View</button>
-              </td>
+      {bills.length > 0 ? (
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Doctor Name</th>
+              <th>Total Amount</th>
+              <th>Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {bills.map(bill => (
+              <tr key={bill.id}>
+                <td>{bill.patient.name}</td>
+                <td>{bill.doctor.name}</td>
+                <td>${bill.totalAmount}</td>
+                <td>{new Date(bill.createdAt).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No billing history found.</p>
+      )}
     </div>
   );
 }

@@ -1,0 +1,15 @@
+/* PatientList.css */
+.patient-list h2 {
+    font-size: 1.75rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .patient-list .btn {
+    margin-bottom: 10px;
+  }
+  
+  .patient-list table {
+    margin-top: 20px;
+  }
+  
